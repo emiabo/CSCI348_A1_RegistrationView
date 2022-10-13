@@ -10,8 +10,9 @@
     <body>
         <main>
             <?php
+                // I took out the if(isset($_REQUEST['submit'])) part because it wasn't triggered by my button and I'm still not sure why it's needed
                 try {
-                    if(!isset($_REQUEST['fname']) || !isset($_REQUEST['lname']) || !isset($_REQUEST['phone']) || !isset($_REQUEST['email']) || !isset($_REQUEST['email2']) || !isset($_REQUEST['user']) || !isset($_REQUEST['pw']) || !isset($_REQUEST['pw2'])) {
+                    if(strlen($_REQUEST['fname']) == 0 || strlen($_REQUEST['lname']) == 0 || strlen($_REQUEST['phone']) == 0 || strlen($_REQUEST['email']) == 0 || strlen($_REQUEST['email2']) == 0 || strlen($_REQUEST['user']) == 0 || strlen($_REQUEST['pw']) == 0 || strlen($_REQUEST['pw2']) == 0) {
                         throw new Exception("All fields are required.");
                     } else if(strcmp($_REQUEST['email'], $_REQUEST['email2']) != 0) {
                         throw new Exception("Emails must match.");
@@ -28,11 +29,20 @@
                     }
                     
                     $fname = $_REQUEST['fname'];
+                    unset($_REQUEST['fname']);
                     $lname = $_REQUEST['lname'];
+                    unset($_REQUEST['lname']);
                     $phone = $_REQUEST['phone'];
+                    unset($_REQUEST['phone']);
                     $email = $_REQUEST['email'];
+                    unset($_REQUEST['email']);
+                    unset($_REQUEST['email2']);
                     $user = $_REQUEST['user'];
+                    unset($_REQUEST['user']);
                     $pw = password_hash($_REQUEST['pw'], PASSWORD_DEFAULT);
+                    unset($_REQUEST['pw']);
+                    unset($_REQUEST['pw2']);
+                    
                     echo("<h1>Success!</h1>");
                     echo("First name: " . $fname . "<br>");
                     echo("Last name: " . $lname . "<br>");
